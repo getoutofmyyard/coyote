@@ -44,79 +44,79 @@ def decode_win_json(data):
     }
     
     operational_status_map = {
-        1: 'Up',
-        2: 'Down',
-        3: 'Testing',
-        4: 'Unknown',
-        5: 'Dormant',
-        6: 'NotPresent',
-        7: 'LowerLayerDown'
+        1: "Up",
+        2: "Down",
+        3: "Testing",
+        4: "Unknown",
+        5: "Dormant",
+        6: "NotPresent",
+        7: "LowerLayerDown"
     }
 
     admin_status_map = {
-        1: 'Up',
-        2: 'Down',
-        3: 'Testing'
+        1: "Up",
+        2: "Down",
+        3: "Testing"
     }
 
     media_connection_state_map = {
-        1: 'Connected',
-        2: 'Disconnected'
+        1: "Connected",
+        2: "Disconnected"
     }
 
     enabled_default_map = {
-        2: 'Enabled',
-        3: 'Disabled'
+        2: "Enabled",
+        3: "Disabled"
     }
 
     enabled_state_map = {
-        2: 'Enabled',
-        3: 'Disabled',
-        5: 'Enabled',
-        12: 'Disabled'
+        2: "Enabled",
+        3: "Disabled",
+        5: "Enabled",
+        12: "Disabled"
     }
 
     requested_state_map = {
-        1: 'Enabled',
-        2: 'Disabled',
-        3: 'Shutting Down',
-        4: 'No Change',
-        5: 'Reset',
-        6: 'Power Off',
-        7: 'Offline',
-        8: 'Test',
-        9: 'Defer',
-        10: 'Quiesce',
-        11: 'Reboot',
-        12: 'Resetting'
+        1: "Enabled",
+        2: "Disabled",
+        3: "Shutting Down",
+        4: "No Change",
+        5: "Reset",
+        6: "Power Off",
+        7: "Offline",
+        8: "Test",
+        9: "Defer",
+        10: "Quiesce",
+        11: "Reboot",
+        12: "Resetting"
     }
 
     transitioning_to_state_map = requested_state_map  # Reuse the same map as requested_state_map
     if_oper_status_map = operational_status_map
 
     for item in data:
-        if 'State' in item:
-            item['State'] = state_map.get(item['State'], item['State'])
-        if 'Store' in item:
-            item['Store'] = store_map.get(item['Store'], item['Store'])
-        if 'AddressFamily' in item:
-            item['AddressFamily'] = address_family_map.get(item['AddressFamily'], item['AddressFamily'])
-        if 'InterfaceOperationalStatus' in item:
-            item['InterfaceOperationalStatus'] = operational_status_map.get(item['InterfaceOperationalStatus'], item['InterfaceOperationalStatus'])
-        if 'AdminStatus' in item:
-            item['AdminStatus'] = admin_status_map.get(item['AdminStatus'], item['AdminStatus'])
-        if 'MediaConnectionState' in item:
-            item['MediaConnectionState'] = media_connection_state_map.get(item['MediaConnectionState'], item['MediaConnectionState'])
-        if 'EnabledDefault' in item:
-            item['EnabledDefault'] = enabled_default_map.get(item['EnabledDefault'], item['EnabledDefault'])
-        if 'EnabledState' in item:
-            item['EnabledState'] = enabled_state_map.get(item['EnabledState'], item['EnabledState'])
-        if 'RequestedState' in item:
-            item['RequestedState'] = requested_state_map.get(item['RequestedState'], item['RequestedState'])
-        if 'TransitioningToState' in item:
-            item['TransitioningToState'] = transitioning_to_state_map.get(item['TransitioningToState'], item['TransitioningToState'])
-        if 'ifOperStatus' in item:
-            item['ifOperStatus'] = if_oper_status_map.get(item['ifOperStatus'], item['ifOperStatus'])
+        if "State" in item:
+            item["State"] = state_map.get(item["State"], item["State"])
+        if "Store" in item:
+            item["Store"] = store_map.get(item["Store"], item["Store"])
+        if "AddressFamily" in item:
+            item["AddressFamily"] = address_family_map.get(item["AddressFamily"], item["AddressFamily"])
+        if "InterfaceOperationalStatus" in item:
+            item["InterfaceOperationalStatus"] = operational_status_map.get(item["InterfaceOperationalStatus"], item["InterfaceOperationalStatus"])
+        if "AdminStatus" in item:
+            item["AdminStatus"] = admin_status_map.get(item["AdminStatus"], item["AdminStatus"])
+        if "MediaConnectionState" in item:
+            item["MediaConnectionState"] = media_connection_state_map.get(item["MediaConnectionState"], item["MediaConnectionState"])
+        if "EnabledDefault" in item:
+            item["EnabledDefault"] = enabled_default_map.get(item["EnabledDefault"], item["EnabledDefault"])
+        if "EnabledState" in item:
+            item["EnabledState"] = enabled_state_map.get(item["EnabledState"], item["EnabledState"])
+        if "RequestedState" in item:
+            item["RequestedState"] = requested_state_map.get(item["RequestedState"], item["RequestedState"])
+        if "TransitioningToState" in item:
+            item["TransitioningToState"] = transitioning_to_state_map.get(item["TransitioningToState"], item["TransitioningToState"])
+        if "ifOperStatus" in item:
+            item["ifOperStatus"] = if_oper_status_map.get(item["ifOperStatus"], item["ifOperStatus"])
 
     return data
 
@@ -143,10 +143,10 @@ def parse_json(in_file, params):
 
     # Set pandas display options
     terminal_width = shutil.get_terminal_size().columns
-    pandas.set_option('display.max_columns', None)  # Display all columns
-    pandas.set_option('display.width', terminal_width)  # Auto-detect screen width and avoid wrapping
-    pandas.set_option('display.colheader_justify', 'center')  # Center column headers
-    pandas.set_option('display.expand_frame_repr', False)  # Disable wrapping
+    pandas.set_option("display.max_columns", None)  # Display all columns
+    pandas.set_option("display.width", terminal_width)  # Auto-detect screen width and avoid wrapping
+    pandas.set_option("display.colheader_justify", "center")  # Center column headers
+    pandas.set_option("display.expand_frame_repr", False)  # Disable wrapping
 
     filtered_df = data_frame[params]
 
