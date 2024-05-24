@@ -3,7 +3,8 @@
 show_params = {
     "show arp": ["ifIndex", "InterfaceAlias", "LinkLayerAddress", "IPAddress", "State"],
     "show nic": ["ifIndex", "ifAlias", "MacAddress", "MediaType", "Status", "AdminStatus", "LinkSpeed", 
-                 "DriverProvider", "DriverVersion"]
+                 "DriverProvider", "DriverVersion"],
+    "show ip address":["ifIndex","InterfaceAlias","IPAddress","PrefixLength","PrefixOrigin"],
 }
 
 show_commands = {
@@ -20,7 +21,7 @@ show_commands = {
     "show fwall profile":"Get-NetFirewallProfile",
     "show gpo":"gpresult /R",
     "show nic":f"Get-NetAdapter | Select-Object -Property {", ".join(show_params.get("show nic"))} | ConvertTo-Json",
-    "show ip address":"Get-NetIPAddress -AddressFamily IPv4 | Select-Object -Property ifIndex,InterfaceAlias,IPAddress,PrefixLength,PrefixOrigin | Sort-Object -Property IPAddress | Format-Table -AutoSize",
+    "show ip address":f"Get-NetIPAddress -AddressFamily IPv4 | Select-Object -Property {", ".join(show_params.get("show ip address"))} | ConvertTo-Json",
     "show ip public":"(Invoke-WebRequest https://itomation.ca/mypublicip).content",
     "show ip route":"Get-NetRoute -AddressFamily ipv4 | Sort-Object -Property DestinationPrefix | Format-Table -Autosize",
     "show ipv6 address":"Get-NetIPAddress -AddressFamily IPv6 | Select-Object -Property ifIndex,InterfaceAlias,IPAddress,PrefixLength,PrefixOrigin | Sort-Object -Property IPAddress | Format-Table -AutoSize",
