@@ -1,7 +1,13 @@
 # Show command set
 
+show_params = {
+    "show arp": ["ifIndex", "InterfaceAlias", "LinkLayerAddress", "IPAddress", "State"],
+    "show nic": ["ifIndex", "ifAlias", "MacAddress", "MediaType", "Status", "AdminStatus", "LinkSpeed", 
+                 "DriverProvider", "DriverVersion"]
+}
+
 show_commands = {
-    "show arp":"arp -a",
+    "show arp":f"Get-NetNeighbor -State Reachable,Stale | Select-Object -Property {", ".join(show_params.get("show arp"))} | ConvertTo-Json",
     "show bgp aggregate":"Get-BgpRouteAggregate",
     "show bgp advertise":"Get-BgpCustomRoute",
     "show bgp id":"Get-BgpRouter | Select-Object BgpIdentifier, LocalASN, TransitRouting, RouteReflector | Format-List",
@@ -13,7 +19,7 @@ show_commands = {
     "show drives":"Get-Volume",
     "show fwall profile":"Get-NetFirewallProfile",
     "show gpo":"gpresult /R",
-    "show int":"get-netadapter | Sort-Object -Property Status -Descending | Format-Table -AutoSize",
+    "show nic":f"Get-NetAdapter | Select-Object -Property {", ".join(show_params.get("show nic"))} | ConvertTo-Json",
     "show ip address":"Get-NetIPAddress -AddressFamily IPv4 | Select-Object -Property ifIndex,InterfaceAlias,IPAddress,PrefixLength,PrefixOrigin | Sort-Object -Property IPAddress | Format-Table -AutoSize",
     "show ip public":"(Invoke-WebRequest https://itomation.ca/mypublicip).content",
     "show ip route":"Get-NetRoute -AddressFamily ipv4 | Sort-Object -Property DestinationPrefix | Format-Table -Autosize",

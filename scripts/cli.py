@@ -4,31 +4,26 @@ from help import *
 from error import *
 
 def cli():
-
     try:
-
-        loop = True
-        while loop == True:
-
+        running = True
+        while running:
             command = input("coyote~$ ").lower().strip()
-
             if command == "":
                 pass
-
             else:
                 args = command.split()
                 root = args[0]
-
                 if command in help_commands:
                     help("top", args)
                 elif command in exit_commands:
-                    loop = False
+                    running = False
                     exit()
                 elif root == "show":
                     try:
                         for cmd in show_commands:
                             if cmd == command: 
-                                pshell_decoder(show_commands.get(cmd))
+                                pshell_input = pshell_decoder(show_commands.get(cmd))
+                                parse_json(pshell_input, show_params.get(cmd))
                                 break
                             elif cmd == "notfound":
                                 help("show", args)
@@ -39,6 +34,5 @@ def cli():
                         pass
                 else:
                     pass
-
-    except Exception:
-        print(Exception)
+    except:
+        pass
