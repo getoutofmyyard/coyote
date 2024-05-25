@@ -2,9 +2,9 @@
 
 show_params = {
     "show arp": ["ifIndex", "InterfaceAlias", "LinkLayerAddress", "IPAddress", "State"],
-    "show nic": ["ifIndex", "ifAlias", "MacAddress", "MediaType", "Status", "AdminStatus", "LinkSpeed", 
-                 "DriverProvider", "DriverVersion"],
+    "show nic": ["ifIndex", "InterfaceAlias", "MacAddress", "Status", "AdminStatus", "LinkSpeed", "DriverProvider", "DriverVersion"],
     "show ip address":["ifIndex","InterfaceAlias","IPAddress","PrefixLength","PrefixOrigin"],
+    "show vpn":["Name","ServerAddress","TunnelType","IPSecCustomPolicy","AuthenticationMethod","ConnectionStatus","SplitTunneling","RememberCredential"]
 }
 
 show_commands = {
@@ -14,7 +14,6 @@ show_commands = {
     "show bgp id":"Get-BgpRouter | Select-Object BgpIdentifier, LocalASN, TransitRouting, RouteReflector | Format-List",
     "show bgp peer":"Get-BgpPeer -Verbose | Format-List",
     "show bgp status":"Get-BgpStatistics",
-    "show crypto":"Get-VpnConnection | Select-Object -Property Name, ServerAddress,TunnelType,AuthenticationMethod, ConnectionStatus",
     "show dns cache":"Get-DnsClientCache | Sort-Object -Property Entry | Format-Table -AutoSize",
     "show dns server":"Get-DnsClientServerAddress | Sort-Object -Property AddressFamily | Format-Table -Autosize",
     "show drives":"Get-Volume",
@@ -34,5 +33,6 @@ show_commands = {
     "show programs":r"Get-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\Windows\\CurrentVersion\\Uninstall\\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize",
     "show svc":"Get-Service | Sort-Object -Property Status -Descending | Format-Table -AutoSize",
     "show tcp":"netstat -n",
+    "show vpn":f"Get-VpnConnection | Select-Object -Property {", ".join(show_params.get("show vpn"))} | ConvertTo-Json",
     "notfound":"notfound",
 }
