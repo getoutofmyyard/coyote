@@ -2,9 +2,12 @@
 
 show_params = {
     "show arp": ["ifIndex", "InterfaceAlias", "LinkLayerAddress", "IPAddress", "State"],
+    "show dns cache":["Type", "Entry", "Data", "Section", "TTL", "Status"],
     "show nic": ["ifIndex", "InterfaceAlias", "MacAddress", "Status", "AdminStatus", "LinkSpeed", "DriverProvider", "DriverVersion"],
     "show ip address":["ifIndex","InterfaceAlias","IPAddress","PrefixLength","PrefixOrigin"],
-    "show vpn":["Name","ServerAddress","TunnelType","IPSecCustomPolicy","AuthenticationMethod","ConnectionStatus","SplitTunneling","RememberCredential"]
+    "show vpn":["Name","ServerAddress","TunnelType","IPSecCustomPolicy","AuthenticationMethod","ConnectionStatus","SplitTunneling","RememberCredential"],
+    "show ipv6 address":["ifIndex","InterfaceAlias","IPv6Address","PrefixLength","PrefixOrigin"],
+    "show disk":["DriveLetter","FileSystem","FileSystemLabel","DriveType","OperationalStatus", "HealthStatus","Size","SizeRemaining"],
 }
 
 show_commands = {
@@ -14,16 +17,16 @@ show_commands = {
     "show bgp id":"Get-BgpRouter | Select-Object BgpIdentifier, LocalASN, TransitRouting, RouteReflector | Format-List",
     "show bgp peer":"Get-BgpPeer -Verbose | Format-List",
     "show bgp status":"Get-BgpStatistics",
-    "show dns cache":"Get-DnsClientCache | Sort-Object -Property Entry | Format-Table -AutoSize",
+    "show dns cache":f"Get-DnsClientCache | Select-Object -Property {", ".join(show_params.get("show dns cache"))} | ConvertTo-Json",
     "show dns server":"Get-DnsClientServerAddress | Sort-Object -Property AddressFamily | Format-Table -Autosize",
-    "show drives":"Get-Volume",
+    "show disk":f"Get-Volume | Select-Object -Property {", ".join(show_params.get("show disk"))} | ConvertTo-Json",
     "show fwall profile":"Get-NetFirewallProfile",
     "show gpo":"gpresult /R",
     "show nic":f"Get-NetAdapter | Select-Object -Property {", ".join(show_params.get("show nic"))} | ConvertTo-Json",
     "show ip address":f"Get-NetIPAddress -AddressFamily IPv4 | Select-Object -Property {", ".join(show_params.get("show ip address"))} | ConvertTo-Json",
     "show ip public":"(Invoke-WebRequest https://itomation.ca/mypublicip).content",
     "show ip route":"Get-NetRoute -AddressFamily ipv4 | Sort-Object -Property DestinationPrefix | Format-Table -Autosize",
-    "show ipv6 address":"Get-NetIPAddress -AddressFamily IPv6 | Select-Object -Property ifIndex,InterfaceAlias,IPAddress,PrefixLength,PrefixOrigin | Sort-Object -Property IPAddress | Format-Table -AutoSize",
+    "show ipv6 address":f"Get-NetIPAddress -AddressFamily IPv6 | Select-Object -Property {", ".join(show_params.get("show ipv6 address"))} | ConvertTo-Json",
     "show ipv6 public":"(Invoke-WebRequest ip6only.me/api/).content",
     "show ipv6 route":"Get-NetRoute -AddressFamily ipv6 | Sort-Object -Property DestinationPrefix | Format-Table -Autosize",
     "show log wev":"eventvwr.msc",
