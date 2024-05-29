@@ -24,6 +24,17 @@ def pshell_decoder(command_to_decode):
 def convert_bytes_to_gb(bytes):
     return round(bytes / (1024 ** 3), 2)
 
+def paginate_output(output, page_size=50):
+    lines = output.splitlines()
+    total_lines = len(lines)
+    for start in range(0, total_lines, page_size):
+        end = start + page_size
+        page = lines[start:end]
+        for line in page:
+            print(line)
+        if end < total_lines:
+            input("Press Enter to continue...")
+
 def decode_win_json(data):
 
     dns_section_map = {
@@ -137,6 +148,25 @@ def decode_win_json(data):
         3: "DHCP",
         4: "RouterAdvertisement",
         5: "Other"
+    }
+
+    protocol_map = {
+        1: "Other",
+        2: "Local",
+        3: "NetMgmt",
+        4: "ICMP",
+        5: "EGP",
+        6: "GGP",
+        7: "Hello",
+        8: "RIP",
+        9: "Is-Is",
+        10: "ES-IS",
+        11: "CISCO",
+        12: "BBN",
+        13: "OSPF",
+        14: "BGP",
+        15: "ND",
+        16: "EIGRP"
     }
 
     cidr_mask_map = {
@@ -309,6 +339,8 @@ def decode_win_json(data):
             item["Section"] = dns_section_map.get(item["Section"], item["Section"])
         if "Type" in item and not "TunnelType" in item:
             item["Type"] = dns_type_map.get(item["Type"], item["Type"])
+        if "Protocol" in item:
+            item["Protocol"] = protocol_map.get(item["Protocol"], item["Protocol"])
 
     return data
 
@@ -334,14 +366,18 @@ def parse_json(in_file, params):
         pass
 
     # Set pandas display options
-    terminal_width = shutil.get_terminal_size().columns
-    pandas.set_option("display.max_columns", None)  # Display all columns
-    pandas.set_option("display.width", terminal_width)  # Auto-detect screen width and avoid wrapping
-    pandas.set_option("display.colheader_justify", "center")  # Center column headers
-    pandas.set_option("display.expand_frame_repr", False)  # Disable wrapping
+    try:
+        terminal_width = shutil.get_terminal_size().columns
+        pandas.set_option("display.max_columns", None)  # Display all columns
+        pandas.set_option("display.width", terminal_width)  # Auto-detect screen width and avoid wrapping
+        pandas.set_option("display.colheader_justify", "center")  # Center column headers
+        pandas.set_option("display.expand_frame_repr", False)  # Disable wrapping
 
-    filtered_df = data_frame[params]
+        filtered_df = data_frame[params]
 
-    table = tabulate(filtered_df, headers="keys", tablefmt="pretty",stralign="right",showindex=False)
+        table = tabulate(filtered_df, headers="keys", tablefmt="pretty",stralign="right",showindex=False)
 
-    print(table)
+        print("\n".join([line[:terminal_width] for line in table.split("\n")]))
+
+    except:
+        print(in_file)

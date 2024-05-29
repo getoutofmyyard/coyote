@@ -23,8 +23,12 @@ def cli():
                         for cmd in show_commands:
                             if cmd == command: 
                                 pshell_input = pshell_decoder(show_commands.get(cmd))
-                                parse_json(pshell_input, show_params.get(cmd))
-                                break
+                                if cmd == "show logging":
+                                    paginate_output(pshell_input)
+                                    break
+                                else:
+                                    parse_json(pshell_input, show_params.get(cmd))
+                                    break
                             elif cmd == "notfound":
                                 help("show", args)
                                 break
