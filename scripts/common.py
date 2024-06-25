@@ -1,17 +1,6 @@
 import subprocess, json, pandas, ipaddress, shutil
 from tabulate import tabulate
 
-# Commands which might be useful to access
-# from within Coyote
-util_commands = [
-    "clear",
-    "cp",
-    "telnet",
-    "ssh",
-    "copy",
-    "curl",
-]
-
 def newline():
     print("")
 
@@ -47,15 +36,6 @@ def paginate_output(output, page_size=50):
             input("Press Enter to continue...")
 
 def decode_win_json(data):
-
-    provider_map = {
-        0: "None",
-        1: "NewReno",
-        2: "CTCP",
-        3: "DCTCP",
-        4: "LED BAT",
-        5: "CUBIC",
-    }
 
     dns_section_map = {
         0: "Reserved",
@@ -361,8 +341,6 @@ def decode_win_json(data):
             item["Type"] = dns_type_map.get(item["Type"], item["Type"])
         if "Protocol" in item:
             item["Protocol"] = protocol_map.get(item["Protocol"], item["Protocol"])
-        if "CongestionProvider" in item:
-            item["CongestionProvider"] = provider_map.get(item["CongestionProvider"], item["CongestionProvider"])
 
     return data
 
