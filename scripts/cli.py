@@ -18,6 +18,16 @@ def cli():
                 elif command in exit_commands:
                     running = False
                     exit()
+                elif root in util_commands:
+                    pshell_input = pshell_decoder(command)
+                    if pshell_input is not None:
+                        newline()
+                        print(pshell_input)
+                        newline()
+                        pass
+                    else:
+                        pass
+                # 'show' command processing
                 elif root == "show":
                     try:
                         for cmd in show_commands:
@@ -26,6 +36,19 @@ def cli():
                                 if cmd == "show logging":
                                     paginate_output(pshell_input)
                                     break
+                                elif cmd == "show tcp provider":
+                                    newline()
+                                    print(pshell_input)
+                                    newline()
+                                    pass
+                                elif cmd == "show ip public":
+                                    if pshell_input is not None:
+                                        newline()
+                                        print(pshell_input)
+                                        newline()
+                                        pass
+                                    else:
+                                        pass
                                 else:
                                     parse_json(pshell_input, show_params.get(cmd))
                                     break
