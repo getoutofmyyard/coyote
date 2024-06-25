@@ -63,14 +63,14 @@ def help_show(arg, command):
     elif level == 3:
         newline()
 
-#        if command[2] != "?" and command[2] != "help":
-#            error("unknown_command")
+        if command[2] != "?" and command[2] != "help":
+            error("unknown_command")
 
         context_list = []
 
         for option in show_commands:
 
-            # Split each available command into an array
+            # Split each available command into an arra
             # in order to contextualize help per level
 
             split_option = option.split()
@@ -102,13 +102,10 @@ def help_show(arg, command):
 def help_top():
     print(r"""
 arp    - configure arp
-clear  - wipe the terminal
 help   - show help
 ip     - configure ipv4 addressing
 ipv6   - configure ipv6 addressing
 show   - show info and stats
-ssh    - openssh client
-telnet - telnet client
 tcp    - configure tcp
     """)
 
