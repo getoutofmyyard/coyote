@@ -1,2 +1,4 @@
 tabulate
 pandas
+windows-curses
+psutil
